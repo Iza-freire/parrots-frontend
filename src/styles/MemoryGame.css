@@ -1,0 +1,118 @@
+.memory-game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f7f9fc;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.memory-game-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.memory-game-container p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.memory-game-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Quatro colunas fixas */
+  gap: 15px; /* Espaçamento entre os cards */
+  width: 100%;
+  max-width: 600px; /* Limita a largura máxima */
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .memory-game-grid {
+    grid-template-columns: repeat(2, 1fr); /* Reduz para duas colunas em telas menores */
+  }
+}
+
+.memory-card {
+  width: 100%;
+  aspect-ratio: 2 / 3; /* Mantém a proporção das cartas */
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform: rotateY(0);
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: #fff; /* Fundo branco para as cartas */
+}
+
+.memory-card.flip {
+  transform: rotateY(180deg);
+}
+
+.memory-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.face {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0; /* Fundo neutro */
+  border: 2px solid #dcdcdc; /* Borda clara */
+}
+
+.front-face {
+  background-color: #85c1e9; /* Azul claro para a frente */
+}
+
+.back-face {
+  transform: rotateY(180deg);
+}
+
+img {
+  width: 80%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão de ação (exemplo para iniciar o jogo ou outras interações) */
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Espaçamento entre os botões */
+.quantity-selector button {
+  margin: 5px; /* Adiciona espaço entre os botões */
+}
+
+.quantity-selector {
+  display: flex;
+  gap: 10px; /* Controle adicional do espaço entre os botões */
+  margin-bottom: 15px; /* Espaço abaixo do grupo de botões */
+}
