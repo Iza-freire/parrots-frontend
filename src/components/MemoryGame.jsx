@@ -1,72 +1,23 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { generateDeck, playGame } from "../api/api";
+import useMemoryGame from "../hooks/useMemoryGame";
 import "../styles/MemoryGame.css";
 
 const MemoryGame = () => {
-  const [quantity, setQuantity] = useState(0);
-  const [deck, setDeck] = useState([]);
-  const [flippedCards, setFlippedCards] = useState([]);
-  const [matchedCards, setMatchedCards] = useState([]);
-  const [lockBoard, setLockBoard] = useState(false);
-  const [moves, setMoves] = useState(0);
-  const [gameStarted, setGameStarted] = useState(false);
   const navigate = useNavigate();
-  const player = JSON.parse(localStorage.getItem("player"));
-
-  const fetchDeck = async () => {
-    try {
-      const response = await generateDeck(quantity);
-      const cards = response.data.cartas.map((card, index) => ({
-        id: index,
-        src: card,
-        flipped: false,
-        matched: false,
-      }));
-      setDeck(cards);
-      setGameStarted(true);
-    } catch (error) {
-      console.error("Erro ao gerar baralho:", error);
-    }
-  };
-
-  const handleCardClick = (cardId) => {
-    if (lockBoard || flippedCards.includes(cardId)) return;
-
-    const newFlippedCards = [...flippedCards, cardId];
-    setFlippedCards(newFlippedCards);
-
-    if (newFlippedCards.length === 2) {
-      setLockBoard(true);
-      setMoves((prevMoves) => prevMoves + 1);
-
-      const [firstId, secondId] = newFlippedCards;
-      const firstCard = deck.find((card) => card.id === firstId);
-      const secondCard = deck.find((card) => card.id === secondId);
-
-      if (firstCard.src === secondCard.src) {
-        setMatchedCards((prev) => [...prev, firstId, secondId]);
-        setFlippedCards([]);
-        setLockBoard(false);
-      } else {
-        setTimeout(() => {
-          setFlippedCards([]);
-          setLockBoard(false);
-        }, 1000);
-      }
-    }
-  };
-
-  const isFlipped = (cardId) =>
-    flippedCards.includes(cardId) || matchedCards.includes(cardId);
-
-  useEffect(() => {
-    if (matchedCards.length === deck.length && deck.length > 0) {
-      playGame(player.id, moves, matchedCards.length)
-        .then(() => navigate("/ranking"))
-        .catch((error) => console.error("Erro ao atualizar pontuação:", error));
-    }
-  }, [matchedCards, deck, navigate, player.id, moves]);
+  const {
+    quantity,
+    setQuantity,
+    deck,
+    matchedCards,
+    moves,
+    gameStarted,
+    loading,
+    error,
+    fetchDeck,
+    handleCardClick,
+    isFlipped,
+    player,
+  } = useMemoryGame();
 
   if (!player) {
     navigate("/");
@@ -80,17 +31,19 @@ const MemoryGame = () => {
           <h2>Bem-vindo, {player.nome}!</h2>
           <p>Escolha a quantidade de cartas para iniciar o jogo:</p>
           <div className="quantity-selector">
-            <button onClick={() => setQuantity(8)}>8</button>
-            <button onClick={() => setQuantity(12)}>12</button>
-            <button onClick={() => setQuantity(16)}>16</button>
+            <button onClick={() => setQuantity(8)} disabled={loading}>8</button>
+            <button onClick={() => setQuantity(12)} disabled={loading}>12</button>
+            <button onClick={() => setQuantity(16)} disabled={loading}>16</button>
           </div>
           <button
             className="start-button"
             onClick={fetchDeck}
-            disabled={quantity === 0}
+            disabled={quantity === 0 || loading}
           >
             Iniciar Jogo
           </button>
+          {loading && <p>Carregando baralho...</p>}
+          {error && <p className="error">{error}</p>}
         </div>
       ) : (
         <>

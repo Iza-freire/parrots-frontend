@@ -1,0 +1,23 @@
+name: CD
+
+on:
+  pull_request:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+
+    - name: Instalar dependências
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Deploy fake
+      run: echo "Deploy realizado com sucesso 🚀"
