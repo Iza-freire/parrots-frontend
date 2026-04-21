@@ -11,10 +11,14 @@ const MemoryGame = () => {
   const [lockBoard, setLockBoard] = useState(false);
   const [moves, setMoves] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const player = JSON.parse(localStorage.getItem("player"));
 
   const fetchDeck = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const response = await generateDeck(quantity);
       const cards = response.data.cartas.map((card, index) => ({
@@ -27,6 +31,9 @@ const MemoryGame = () => {
       setGameStarted(true);
     } catch (error) {
       console.error("Erro ao gerar baralho:", error);
+      setError("Erro ao gerar baralho. Tente novamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -80,17 +87,19 @@ const MemoryGame = () => {
           <h2>Bem-vindo, {player.nome}!</h2>
           <p>Escolha a quantidade de cartas para iniciar o jogo:</p>
           <div className="quantity-selector">
-            <button onClick={() => setQuantity(8)}>8</button>
-            <button onClick={() => setQuantity(12)}>12</button>
-            <button onClick={() => setQuantity(16)}>16</button>
+            <button onClick={() => setQuantity(8)} disabled={loading}>8</button>
+            <button onClick={() => setQuantity(12)} disabled={loading}>12</button>
+            <button onClick={() => setQuantity(16)} disabled={loading}>16</button>
           </div>
           <button
             className="start-button"
             onClick={fetchDeck}
-            disabled={quantity === 0}
+            disabled={quantity === 0 || loading}
           >
             Iniciar Jogo
           </button>
+          {loading && <p>Carregando baralho...</p>}
+          {error && <p className="error">{error}</p>}
         </div>
       ) : (
         <>
