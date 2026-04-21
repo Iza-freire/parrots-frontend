@@ -76,3 +76,9 @@ input {
 .navbar ul li a:hover {
   text-decoration: underline;
 }
+
+.error {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 10px;
+}
