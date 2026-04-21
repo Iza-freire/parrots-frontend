@@ -1,8 +1,50 @@
-# React + Vite
+# Parrots Card Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um jogo de memória simples desenvolvido com React e Vite. Os jogadores devem encontrar pares de cartas idênticas em um tabuleiro.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Registro de jogador
+- Seleção de quantidade de cartas (8, 12 ou 16)
+- Jogo de memória com cartas viradas
+- Ranking de jogadores
+- Navegação entre páginas com React Router
+- Estados de loading e tratamento de erros
+- Design responsivo
+
+## Tecnologias Utilizadas
+
+- React 18
+- Vite
+- React Router DOM
+- Axios
+- React Spinners (para indicadores de loading)
+- ESLint
+
+## Como Executar
+
+1. Clone o repositório
+2. Instale as dependências: `npm install`
+3. Execute o servidor de desenvolvimento: `npm run dev`
+4. Abra [http://localhost:5173](http://localhost:5173) no navegador
+
+## Scripts Disponíveis
+
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Gera build de produção
+- `npm run lint` - Executa ESLint
+- `npm run preview` - Visualiza o build de produção
+
+## API
+
+O jogo se conecta a uma API backend para gerar baralhos, registrar jogadores e obter rankings. Configure a URL da API em `src/api/api.js`.
+
+## Contribuição
+
+1. Crie uma branch para suas mudanças
+2. Faça commits pequenos e descritivos
+3. Abra um Pull Request
+
+## Licença
+
+Este projeto é open source.
