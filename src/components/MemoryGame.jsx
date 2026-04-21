@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { generateDeck, playGame } from "../api/api";
 import "../styles/MemoryGame.css";
 
-const MemoryGame = ({ player, onGameCompleted }) => {
+const MemoryGame = () => {
   const [quantity, setQuantity] = useState(0);
   const [deck, setDeck] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
@@ -10,6 +11,8 @@ const MemoryGame = ({ player, onGameCompleted }) => {
   const [lockBoard, setLockBoard] = useState(false);
   const [moves, setMoves] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
+  const navigate = useNavigate();
+  const player = JSON.parse(localStorage.getItem("player"));
 
   const fetchDeck = async () => {
     try {
@@ -60,10 +63,15 @@ const MemoryGame = ({ player, onGameCompleted }) => {
   useEffect(() => {
     if (matchedCards.length === deck.length && deck.length > 0) {
       playGame(player.id, moves, matchedCards.length)
-        .then(() => onGameCompleted())
+        .then(() => navigate("/ranking"))
         .catch((error) => console.error("Erro ao atualizar pontuação:", error));
     }
-  }, [matchedCards, deck, onGameCompleted, player.id, moves]);
+  }, [matchedCards, deck, navigate, player.id, moves]);
+
+  if (!player) {
+    navigate("/");
+    return null;
+  }
 
   return (
     <div className="memory-game-container">

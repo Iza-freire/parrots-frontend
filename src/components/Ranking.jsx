@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getRanking } from "../api/api";
 import "../styles/Ranking.css";
 
