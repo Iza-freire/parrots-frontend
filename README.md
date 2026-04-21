@@ -39,6 +39,30 @@ Um jogo de memória simples desenvolvido com React e Vite. Os jogadores devem en
 
 O jogo se conecta a uma API backend para gerar baralhos, registrar jogadores e obter rankings. Configure a URL da API em `src/api/api.js`.
 
+## Docker
+
+### Construir e Executar com Docker
+
+```bash
+# Build da imagem
+docker build -t parrots-frontend:latest .
+
+# Executar container
+docker run -p 3000:80 parrots-frontend:latest
+```
+
+Acesse [http://localhost:3000](http://localhost:3000) no navegador.
+
+### Executar com Docker Compose
+
+```bash
+# Iniciar container
+docker-compose up -d
+
+# Parar container
+docker-compose down
+```
+
 ## Contribuição
 
 1. Crie uma branch para suas mudanças
